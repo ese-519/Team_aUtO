@@ -40,8 +40,8 @@ public class MainActivity extends Activity {
         main_b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //find();
-                goToMonitor();
+                find();
+                //goToMonitor(); // debugger!!!
             }
         });
 

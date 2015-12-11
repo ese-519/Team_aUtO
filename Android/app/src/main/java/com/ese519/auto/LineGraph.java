@@ -19,28 +19,36 @@ import org.achartengine.renderer.XYSeriesRenderer;
  */
 public class LineGraph {
 
-    // fake data
-    //int [] x = {1, 2, 3, 4, 5, 6, 7, 8};
-    //int [] y = {10, 20, 30, 40, 50, 60, 70, 80};
-
-    private TimeSeries dataset = new TimeSeries("UO");
-    private XYSeriesRenderer renderer = new XYSeriesRenderer();
+    private TimeSeries dataset_rate = new TimeSeries("UO_hourly");
+    private TimeSeries dataset_level = new TimeSeries("UO_level");
+    private XYSeriesRenderer renderer_rate = new XYSeriesRenderer();
+    private XYSeriesRenderer renderer_level = new XYSeriesRenderer();
     private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
     private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
 
     public LineGraph() {
 
         // add dataset to mult dataset
-        mDataset.addSeries(dataset);
+        mDataset.addSeries(dataset_rate);
+        mDataset.addSeries(dataset_level);
 
-        // customization for series
-        renderer.setColor(Color.RED);
-        renderer.setFillPoints(true);
-        renderer.setDisplayBoundingPoints(false);
-        renderer.setFillPoints(true);
-        renderer.setLineWidth(2f);
-        renderer.setPointStyle(PointStyle.SQUARE);
-        renderer.setFillPoints(true);
+        // customization for level series
+        renderer_level.setColor(Color.BLUE);
+        renderer_level.setFillPoints(true);
+        renderer_level.setDisplayBoundingPoints(false);
+        renderer_level.setFillPoints(true);
+        renderer_level.setLineWidth(2f);
+        renderer_level.setPointStyle(PointStyle.SQUARE);
+        renderer_level.setFillPoints(true);
+
+        // customization for hourly series
+        renderer_rate.setColor(Color.RED);
+        renderer_rate.setFillPoints(true);
+        renderer_rate.setDisplayBoundingPoints(false);
+        renderer_rate.setFillPoints(true);
+        renderer_rate.setLineWidth(2f);
+        renderer_rate.setPointStyle(PointStyle.SQUARE);
+        renderer_rate.setFillPoints(true);
 
         // customize graph
         mRenderer.setZoomButtonsVisible(true);
@@ -55,72 +63,29 @@ public class LineGraph {
         mRenderer.setYLabelsVerticalPadding(-5f);
         mRenderer.setYLabelsPadding(40);
         mRenderer.setXTitle("Time (seconds ago)");
-        mRenderer.setYTitle("UO (mL/hr)");
-        mRenderer.setChartTitle("Patient XYZ UO (ml/hr)");
+        mRenderer.setChartTitle("Patient XYZ UO");
         mRenderer.setChartTitleTextSize(50f);
 
         // add to mult renderer
-        mRenderer.addSeriesRenderer(renderer);
+        mRenderer.addSeriesRenderer(renderer_rate);
+        mRenderer.addSeriesRenderer(renderer_level);
     }
 
     public GraphicalView getView(Context context) {
         return ChartFactory.getLineChartView(context, mDataset, mRenderer);
     }
 
-    public void addPoint(Point P) {
-        dataset.add(P.getX(), P.getY());
+    public void addPoint_rate(Point P) {
+        dataset_rate.add(P.getX(), P.getY());
+    }
+
+    public void addPoint_level(Point P) {
+        dataset_level.add(P.getX(), P.getY());
     }
 
     public void clearLine() {
-        dataset.clear();
+        dataset_rate.clear();
+        dataset_level.clear();
     }
 
-    /*
-    public Intent getIntent(Context context) {
-
-        // fake series
-        TimeSeries series = new TimeSeries("Line1");
-        for (int i=0;i<x.length;i++) {
-            series.add(x[i],y[i]);
-        }
-
-        // fake dataset
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        dataset.addSeries(series);
-
-        // fake renderer
-        XYSeriesRenderer renderer = new XYSeriesRenderer();
-        renderer.setColor(Color.RED);
-        renderer.setFillPoints(true);
-        renderer.setDisplayBoundingPoints(false);
-        renderer.setFillPoints(true);
-        renderer.setLineWidth(2f);
-        renderer.setPointStyle(PointStyle.SQUARE);
-        renderer.setFillPoints(true);
-
-        // fake mult series renderer
-        XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
-        mRenderer.setShowGrid(true);
-        mRenderer.setApplyBackgroundColor(true);
-        mRenderer.setBackgroundColor(Color.LTGRAY);
-        mRenderer.setGridColor(Color.WHITE);
-        mRenderer.setLabelsTextSize(50f);
-        mRenderer.setXLabels(5);
-        mRenderer.setYLabels(5);
-        mRenderer.setMargins(new int[]{150, 150, 150, 0});
-        mRenderer.setYLabelsVerticalPadding(-5f);
-        mRenderer.setYLabelsPadding(40);
-        mRenderer.setXTitle("Time (minutes ago)");
-        mRenderer.setYTitle("UO (mL/hr)");
-        mRenderer.setChartTitle("Patient XYZ UO (ml/hr)");
-        mRenderer.setChartTitleTextSize(50f);
-        mRenderer.addSeriesRenderer(renderer);
-
-
-        // fake intent
-        Intent intent = ChartFactory.getLineChartIntent(context, dataset, mRenderer, "Line Graph JF");
-        return intent;
-
-    }
-    */
 }
